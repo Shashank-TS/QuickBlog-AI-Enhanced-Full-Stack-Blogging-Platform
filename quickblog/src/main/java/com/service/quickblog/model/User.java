@@ -23,15 +23,12 @@ public class User implements UserDetails {
     private String fullname;
     private String username;
     private String password;
-
     private List<String> blogIds;
-
-    private String roles; // Store roles as a comma-separated string, e.g., "USER,ADMIN"
+    private String roles; 
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_" + roles.toUpperCase())); // Assuming single role for simplicity.
-                                                                                // For multiple roles, split the 'roles' string.
+        return List.of(new SimpleGrantedAuthority("ROLE_" + roles.toUpperCase()));                                                                              // For multiple roles, split the 'roles' string.
     }
 
     @Override

@@ -4,11 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.service.quickblog.dto.BlogDTO;
 import com.service.quickblog.dto.CommentDTO;
 import com.service.quickblog.dto.CommentResponseDTO;
 import com.service.quickblog.model.Blog;
@@ -79,20 +77,12 @@ public class CommentsService {
     }
 
     public List<CommentResponseDTO> getCommentsByUserId(String userId) {
-        // Step 1: Find all blogs by the user
         List<Blog> blogs = blogRepository.findByUserId(userId);
-
-        // Step 2: Map blogId to blogTitle
         Map<String, String> blogIdToTitle = blogs.stream()
             .collect(Collectors.toMap(Blog::getId, Blog::getTitle));
-
-        // Step 3: Get all blog IDs
         List<String> blogIds = new ArrayList<>(blogIdToTitle.keySet());
-
-        // Step 4: Fetch comments where blogId is in the above list
         List<Comment> comments = commentsRepository.findByBlogIdIn(blogIds);
 
-        // Step 5: Map to DTOs
         return comments.stream()
             .map(comment -> mapCommentToDTO(comment, blogIdToTitle.get(comment.getBlogId())))
             .collect(Collectors.toList());

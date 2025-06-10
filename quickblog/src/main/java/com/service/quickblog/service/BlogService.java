@@ -1,6 +1,5 @@
 package com.service.quickblog.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import com.service.quickblog.repository.UserRepository;

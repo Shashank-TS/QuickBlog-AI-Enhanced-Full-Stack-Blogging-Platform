@@ -48,7 +48,7 @@ public class AuthController {
             registrationRequest.setRoles("USER"); 
         }
 
-        User savedUser = userRepository.save(registrationRequest);
+        userRepository.save(registrationRequest);
         return new ResponseEntity<>("User registered successfully!", HttpStatus.CREATED);
     }
 

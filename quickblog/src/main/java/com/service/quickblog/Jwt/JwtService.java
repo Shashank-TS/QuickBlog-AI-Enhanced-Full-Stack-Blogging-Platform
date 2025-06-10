@@ -20,22 +20,20 @@ public class JwtService {
     private String SECRET;
 
     @Value("${jwt.expiration}")
-    private long jwtExpiration; // Expiration time in milliseconds
+    private long jwtExpiration; 
 
     public String generateToken(String userName) {
         Map<String, Object> claims = new HashMap<>();
-        // You can add custom claims here if needed
-        // claims.put("role", "USER"); // Example custom claim
         return createToken(claims, userName);
     }
 
     private String createToken(Map<String, Object> claims, String userName) {
         return Jwts.builder()
-                .claims(claims) // Replaced setClaims()
-                .subject(userName) // Replaced setSubject()
-                .issuedAt(new Date(System.currentTimeMillis())) // Replaced setIssuedAt()
-                .expiration(new Date(System.currentTimeMillis() + jwtExpiration)) // Replaced setExpiration()
-                .signWith(getSignKey())// This line is correct
+                .claims(claims) 
+                .subject(userName) 
+                .issuedAt(new Date(System.currentTimeMillis())) 
+                .expiration(new Date(System.currentTimeMillis() + jwtExpiration)) 
+                .signWith(getSignKey())
                 .compact();
     }
 
@@ -58,9 +56,9 @@ public class JwtService {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parser() // This was already corrected to Jwts.parser()
+        return Jwts.parser() 
                 .setSigningKey(getSignKey())
-                .build() // Build the parser
+                .build() 
                 .parseClaimsJws(token)
                 .getBody();
     }

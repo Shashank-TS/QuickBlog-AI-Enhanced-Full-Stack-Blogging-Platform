@@ -2,7 +2,7 @@ package com.service.quickblog.Jwt;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie; // Import for Cookie
+import jakarta.servlet.http.Cookie; 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +12,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-
 import com.service.quickblog.service.UserDetailsServiceImpl;
-
 import java.io.IOException;
-import java.util.Arrays; // For Array stream operations
+import java.util.Arrays; 
 
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
@@ -34,30 +32,21 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String token = null;
         String username = null;
 
-        // --- NEW LOGIC: Extract token from HTTP-only cookie ---
         if (request.getCookies() != null) {
             token = Arrays.stream(request.getCookies())
-                          .filter(cookie -> "jwtToken".equals(cookie.getName())) // Look for cookie named "jwtToken"
+                          .filter(cookie -> "jwtToken".equals(cookie.getName())) 
                           .map(Cookie::getValue)
                           .findFirst()
                           .orElse(null);
         }
-        // --- END NEW LOGIC ---
 
-        // Original logic for Authorization header (can keep as fallback or remove if only using cookies)
-        // String authHeader = request.getHeader("Authorization");
-        // if (authHeader != null && authHeader.startsWith("Bearer ")) {
-        //     token = authHeader.substring(7);
-        // }
-
-        if (token != null) { // Proceed only if a token was found
+        if (token != null) { 
             try {
                 username = jwtService.extractUsername(token);
             } catch (Exception e) {
-                // Log token parsing/validation errors for debugging
+                
                 logger.warn("JWT token extraction failed: " + e.getMessage());
-                // Consider sending an appropriate error response or just letting it fall through
-                // if token is invalid, SecurityContextHolder will remain null, leading to 401
+                
             }
         }
 
@@ -67,7 +56,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 userDetails = userDetailsService.loadUserByUsername(username);
             } catch (Exception e) {
                 logger.warn("User details not found for username: " + username + ", " + e.getMessage());
-                // Handle cases where username from token is not found in DB (e.g., user deleted)
+                
             }
 
 
