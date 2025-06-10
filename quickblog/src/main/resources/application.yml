@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: quickblog
+
+  data:
+    mongodb:
+      uri: ${DB_URL}
+
+jwt:
+  secret: ${JWT_SECRET}
+  expiration: ${JWT_EXPIRATION}
+
+frontend:
+  url: ${FRONTEND_URL}
