@@ -25,17 +25,15 @@
 
 ## How to run?
 
-### Step 1: Fork and Clone the Repository
+### Step 1: Clone the Repository
 
-1. Fork the repository to your GitHub account.
-
-2. Clone the forked repository to your local machine.
+2. Clone the repository to your local machine.
 
 ```sh
 git clone https://github.com/<your-username>/QuickBlog-AI-Enhanced-Full-Stack-Blogging-Platform
 ```
 
-### Step 2: Setting up e-mail and database configurations
+### Step 2: Setting up database configurations
 
 - Configure the following credentials in the [`application.yml`](https://github.com/Shashank-TS/QuickBlog-AI-Enhanced-Full-Stack-Blogging-Platform/blob/main/quickblog/src/main/resources/application.yml) file.
 
@@ -73,5 +71,5 @@ npm install
 npm start
 ```
 
-Access the application at [`http://localhost:5173/`](http://localhost:5173/).
-To get started create a new account.
+-Access the application at [`http://localhost:5173/`](http://localhost:5173/).
+-To get started create a new account.
