@@ -25,7 +25,7 @@ const Login = () => {
           withCredentials: true
         })
         const data=await res.data;
-        sessionStorage.setItem("userId",data.userId);
+        localStorage.setItem("userId",data.userId);
         toast.success("Login successfull")
         console.log("login successfull ",data)
         setError('')
@@ -100,7 +100,7 @@ const Login = () => {
                 required
                 placeholder="your email id"
                 className="border-b-2 border-gray-300 p-2 outline-none mb-6"
-                type="text"
+                type="email"
                 value={username}
                 onChange={(e)=>setUsername(e.target.value)}
               />

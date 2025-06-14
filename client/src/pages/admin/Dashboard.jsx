@@ -1,19 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { assets, dashboard_data } from "../../assets/assets";
+import { assets } from "../../assets/assets";
 import BlogTableItem from "./BlogTableItem";
 import axios from "axios";
 import Loader from "../../components/Spinner";
 
-
 const Dashboard = () => {
-  // const [dashboardData, setDashboardData] = useState({
-  //   blogs: 0,
-  //   comments: 0,
-  //   drafts: 0,
-  //   recentBlogs: [],
-  // });
   const [loadingBlogs, setLoadingBlogs] = useState(true);
-    const [error, setError] = useState('');
+  const [error, setError] = useState('');
   
   const [blogsNo,setBlogsNo]=useState(0)
   const [comments,setComments]=useState(0)
@@ -22,14 +15,10 @@ const Dashboard = () => {
   const [blogs,setBlogs]=useState([])
 
   useEffect(() => {
-    // fetchDashboardData();
     fetchBlogs();
   }, []);
 
-  // const fetchDashboardData = async () => {
-  //   setDashboardData(dashboard_data)
-  // };
-  const userId = sessionStorage.getItem("userId")
+  const userId = localStorage.getItem("userId")
 
   const fetchBlogs =async () => {
     setLoadingBlogs(true)
@@ -37,7 +26,7 @@ const Dashboard = () => {
 
     if (!userId) {
       setError("User ID not found. Please log in.");
-      setLoading(false);
+      setLoadingBlogs(false);
       return;
     }
     try {
@@ -51,6 +40,10 @@ const Dashboard = () => {
             return sum + (blog.commentIds ? blog.commentIds.length : 0);
         }, 0);
         setComments(totalComments);
+        const totalDrafts = data.reduce((sum, blog) => {
+            return sum + (blog.published === false ? 1  : 0);
+        }, 0);
+        setDrafts(totalDrafts);
         console.log("blogs fetched successfully",data)
       } catch (error) {
         console.error("error fetching blogs:" ,error)

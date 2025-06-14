@@ -11,7 +11,7 @@ const ListBlog = () => {
   const [loadingBlogs, setLoadingBlogs] = useState(true);
   const [error, setError] = useState('');
 
-  const userId = sessionStorage.getItem("userId")
+  const userId = localStorage.getItem("userId")
 
   const fetchBlogs =async () => {
     setLoadingBlogs(true)

@@ -7,7 +7,6 @@ const BlogImageUpload = ({ onUploadSuccess }) => {
   const publicKey=`${import.meta.env.VITE_IMAGEKIT_PUBLIC_KEY}`;
   const urlEndpoint=`${import.meta.env.VITE_IMAGEKIT_URL}`;
 
-
   return (
     <div>
       <IKUpload
@@ -17,7 +16,7 @@ const BlogImageUpload = ({ onUploadSuccess }) => {
         onSuccess={(res) => {
           console.log("Upload success:", res);
           setPreviewUrl(res.url);
-          onUploadSuccess(res.url); // Pass to parent (e.g., blog creation form)
+          onUploadSuccess(res.url); // Pass to parent 
         }}
         onError={(err) => console.error("Upload error:", err)}
       />

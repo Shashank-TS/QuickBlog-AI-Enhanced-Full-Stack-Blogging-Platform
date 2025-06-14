@@ -1,7 +1,6 @@
 import React from 'react';
 
 const Spinner = ({ size = 'md', color = 'text-blue-500', className = '' }) => {
-  // Determine spinner dimensions based on 'size' prop
   const sizeClasses = {
     sm: 'w-6 h-6 border-2',    // Small
     md: 'w-10 h-10 border-4',  // Medium (default)
@@ -9,7 +8,7 @@ const Spinner = ({ size = 'md', color = 'text-blue-500', className = '' }) => {
     xl: 'w-24 h-24 border-8',  // Extra Large
   };
 
-  const spinnerClass = sizeClasses[size] || sizeClasses.md; // Fallback to md if invalid size
+  const spinnerClass = sizeClasses[size] || sizeClasses.md; 
 
   return (
     <div className={`
@@ -27,33 +26,30 @@ const Spinner = ({ size = 'md', color = 'text-blue-500', className = '' }) => {
   );
 };
 
-// Main Loader component that can wrap content or be used standalone
 const Loader = ({
-  loading, // Boolean: If true, show the loader.
-  children, // Optional: Content to display when not loading.
-  fullScreen = false, // Boolean: If true, centers the loader on the full screen.
-  overlay = false, // Boolean: If true, creates a semi-transparent overlay over content.
-  spinnerSize = 'md', // Size of the spinner ('sm', 'md', 'lg', 'xl')
-  spinnerColor = 'text-blue-500', // Tailwind color class for the spinner
-  message = null // Optional: A message to display below the spinner
+  loading, 
+  children, 
+  fullScreen = false, 
+  overlay = false, 
+  spinnerSize = 'md', 
+  spinnerColor = 'text-blue-500', 
+  message = null 
 }) => {
   if (!loading) {
-    return children; // If not loading, render children (or null if no children)
+    return children; 
   }
 
-  // Base classes for centering the loader
   let containerClasses = `
     flex items-center justify-center
     ${message ? 'flex-col' : ''} // Add column flex if message is present
   `;
 
-  // Apply full screen or overlay styles
   if (fullScreen) {
-    containerClasses += ' fixed inset-0 z-50'; // Fixed position, takes full screen, high z-index
+    containerClasses += ' fixed inset-0 z-50'; 
   } else if (overlay) {
-    containerClasses += ' absolute inset-0 z-40'; // Absolute position within parent, covers content
+    containerClasses += ' absolute inset-0 z-40'; 
   } else {
-    containerClasses += ' relative'; // Default to relative if neither fullscreen nor overlay
+    containerClasses += ' relative'; 
   }
 
   return (

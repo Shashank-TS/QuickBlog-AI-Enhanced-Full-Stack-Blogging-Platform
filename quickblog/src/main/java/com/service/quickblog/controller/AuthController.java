@@ -39,11 +39,8 @@ public class AuthController {
             return new ResponseEntity<>("Username is already taken!", HttpStatus.BAD_REQUEST);
         }
 
-        // Encode the password before saving
         registrationRequest.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
         
-        // Assign a default role. For simplicity, let's assume all registered users are 'USER'.
-        // You might want a more sophisticated role management system.
         if (registrationRequest.getRoles() == null || registrationRequest.getRoles().isEmpty()) {
             registrationRequest.setRoles("USER"); 
         }
@@ -62,13 +59,13 @@ public class AuthController {
             if (authentication.isAuthenticated()) {
                 String token = jwtService.generateToken(authRequest.getUsername());
 
-                // Create an HTTP-only cookie
+                // HTTP-only cookie
                 ResponseCookie springCookie = ResponseCookie.from("jwtToken", token)
-                        .httpOnly(true)       // Makes it inaccessible to JavaScript
-                        .secure(true)         // Only send over HTTPS (RECOMMENDED for production)
-                        .path("/")            // Available for all paths
-                        .maxAge(jwtService.getJwtExpiration() / 1000) // Max age in seconds
-                        .sameSite("Lax")      // CSRF protection (Strict, Lax, None)
+                        .httpOnly(true)       
+                        .secure(true)         
+                        .path("/")            
+                        .maxAge(jwtService.getJwtExpiration() / 1000) 
+                        .sameSite("Lax")      
                         .build();
 
                 User user =userRepository.findByUsername(authRequest.getUsername()).orElseThrow(()->new RuntimeException("user not found"));
@@ -77,7 +74,7 @@ public class AuthController {
 
                 return ResponseEntity.ok()
                         .header(HttpHeaders.SET_COOKIE, springCookie.toString())
-                        .body(authResponse); // Or a more generic success message
+                        .body(authResponse); 
             } else {
                 return new ResponseEntity<>("Authentication failed.", HttpStatus.UNAUTHORIZED);
             }
@@ -90,12 +87,12 @@ public class AuthController {
     @PostMapping("/logout")
     public ResponseEntity<?> logoutUser() {
 
-        ResponseCookie springCookie = ResponseCookie.from("jwtToken", "") // Empty value
+        ResponseCookie springCookie = ResponseCookie.from("jwtToken", "") 
                 .httpOnly(true)
-                .secure(true) // Should match your login cookie settings
+                .secure(true) 
                 .path("/")
-                .maxAge(0) // Set max-age to 0 to expire the cookie immediately
-                .sameSite("Lax") // Should match your login cookie settings
+                .maxAge(0) 
+                .sameSite("Lax") 
                 .build();
 
         return ResponseEntity.ok()

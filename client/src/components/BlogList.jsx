@@ -2,29 +2,33 @@ import React, { useEffect, useState } from "react";
 import { blogCategories } from "../assets/assets";
 import { motion } from "motion/react";
 import BlogCard from "./BlogCard";
-import axios from "axios";
+import Loader from "./Spinner";
+import { useBlogs } from "../context/BlogContext";
 
 const BlogList = () => {
-    const [menu,setMenu]=useState("All")
-    const [blogs,setBlogs]=useState([])
 
-    useEffect(()=>{
-      fetchBlogs()
-    },[])
+    const [menu, setMenu] = useState("All");
+    const { blogs, loadingBlogs, error, refetchBlogs } = useBlogs();
 
-    const fetchBlogs=async () => {
-      try {
-        const res=await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/blog/get`)
-        const data=res.data;
-        setBlogs(data);
-        console.log("blogs fetched successfully")
-      } catch (error) {
-        console.error("error fetching blogs:" ,error)
-        toast.error("error fetching blogs")
-      }
-    }
+    const filteredBlogs = blogs.filter((blog) =>
+        menu === "All" ? true : blog.category === menu
+    );
   return (
     <div>
+      {loadingBlogs ? (
+          <Loader loading={loadingBlogs} spinnerSize="md" spinnerColor="text-purple-500" message="Loading your blogs..." />
+        ) : error ? (
+          <div className="text-red-600 text-center p-4">
+            <p>Error: {error}</p>
+            <button
+              onClick={fetchBlogs}
+              className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            >
+              Retry
+            </button>
+          </div>
+        ):(
+          <>
       <div className="flex justify-center gap-4 sm:gap-8 my-10 relative">
         {blogCategories.map((item) => (
           <div key={item} className="relative">
@@ -46,7 +50,8 @@ const BlogList = () => {
         {blogs.filter((blog)=>menu === "All"?true : blog.category===menu).
         map((blog)=><BlogCard key={blog.id} blog={blog}></BlogCard>)}
       </div>
-
+      </>
+        )}
     </div>
   );
 };

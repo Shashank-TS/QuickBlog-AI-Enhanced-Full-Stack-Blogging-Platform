@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import com.service.quickblog.dto.CommentDTO;
 import com.service.quickblog.dto.CommentResponseDTO;
 import com.service.quickblog.model.Blog;
@@ -45,6 +46,7 @@ public class CommentsService {
         return comments;
     }
 
+    @Transactional
     public CommentDTO create(CommentDTO commentDTO) {
         Comment comment = mapDTOtoClass(commentDTO);
         Comment savedComment = commentsRepository.save(comment);
@@ -76,6 +78,7 @@ public class CommentsService {
     return dto;
     }
 
+    @Transactional
     public List<CommentResponseDTO> getCommentsByUserId(String userId) {
         List<Blog> blogs = blogRepository.findByUserId(userId);
         Map<String, String> blogIdToTitle = blogs.stream()
@@ -95,8 +98,13 @@ public class CommentsService {
         return "Comment approved Successfully!";
     }
 
+    @Transactional
     public String deleteComment(String id) {
         Comment comment=commentsRepository.findById(id).orElseThrow(()->new RuntimeException("comment not found with id: "+id));
+        Blog blog =blogRepository.findById(comment.getBlogId()).orElseThrow(()->new RuntimeException("blog not found"));
+        List<String> updatedCommentIds = blog.getCommentIds().stream().filter(commentId->!commentId.matches(id)).toList();
+        blog.setCommentIds(updatedCommentIds);
+        blogRepository.save(blog);
         commentsRepository.delete(comment);
         return "Comment deleted Successfully!";
     }

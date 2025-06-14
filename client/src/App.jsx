@@ -11,27 +11,27 @@ import Comments from './pages/admin/Comments'
 import 'quill/dist/quill.snow.css'
 import ProtectedRoute from './context/ProtectedRoute'
 import { Toaster } from 'react-hot-toast'
-
+import Profile from './pages/admin/Profile'
+import Test from './pages/text'
 
 const App = () => {
 
   return (
     <div>
       <Toaster
-        position="top-center" // You can change this (top-left, bottom-center, etc.)
-        reverseOrder={false} // New toasts appear on top of old ones
-        gutter={8} // Spacing between toasts
+        position="top-center" 
+        reverseOrder={false} 
+        gutter={8} 
         containerClassName=""
         containerStyle={{}}
         toastOptions={{
-          // Default options for all toasts
+          
           className: '',
-          duration: 3000, // How long the toast is visible (in ms)
+          duration: 3000, 
           style: {
             background: '#363636',
             color: '#fff',
           },
-          // Customization for different types of toasts
           success: {
             duration: 3000,
             theme: {
@@ -53,12 +53,14 @@ const App = () => {
         <Route path='/' element={<Home/>}/>
         <Route path='/blog/:id' element={<Blog/>}/>
         <Route path='/login' element={<Login/>}/>
+        <Route path='/test' element={<Test/>}/>
 
         <Route path='/admin' element={<ProtectedRoute><Layout/></ProtectedRoute>}>
           <Route index element={<ProtectedRoute><Dashboard/></ProtectedRoute>}/>
           <Route path='addBlog' element={<ProtectedRoute><AddBlog/></ProtectedRoute>}/>
           <Route path='listBlog' element={<ProtectedRoute><ListBlog/></ProtectedRoute>}/>
           <Route path='comments' element={<ProtectedRoute><Comments/></ProtectedRoute>}/>
+          <Route path='profile' element={<ProtectedRoute><Profile/></ProtectedRoute>}/>
         </Route>:
 
       </Routes>    

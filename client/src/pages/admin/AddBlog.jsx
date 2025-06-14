@@ -9,13 +9,15 @@ const AddBlog = () => {
   const editorRef=useRef(null)
   const quillRef=useRef(null)
 
-  const userId = sessionStorage.getItem("userId")
+  const userId = localStorage.getItem("userId")
 
   const [image,setImage]=useState(false);
   const [title,setTitle]=useState('');
   const [subTitle,setSubTitle]=useState('');
   const [category,setCategory]=useState("Startup");
   const [isPublished,setIsPublished]=useState(false);
+  const [loading,setLoading]=useState(false);
+
 
   const publicKey=`${import.meta.env.VITE_IMAGEKIT_PUBLIC_KEY}`;
 
@@ -50,6 +52,7 @@ const AddBlog = () => {
     setCategory("Startup")
     setIsPublished(false)
     setSubTitle('')
+    quillRef.current.root.innerHTML=""
     toast.success("Blog created successfully");
   } catch (error) {
     console.error("Failed to upload blog:", error);
@@ -58,9 +61,7 @@ const AddBlog = () => {
 };
 
 const uploadImageToImageKit = async () => {
-  try {
-    
-  
+  try { 
   const authRes = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/imagekit/auth`,{
           withCredentials: true
         });
@@ -86,11 +87,29 @@ const uploadImageToImageKit = async () => {
 
 
   const genrateContent =async () => {
-    
+    if(!title) return toast.error("Please enter a title")
+      setLoading(true)
+      toast.promise(
+        axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/ai/generateblog`, { title }, {
+        withCredentials: true
+        }).then(res => { 
+        if (res.data) {
+        console.log(res.data);
+          quillRef.current.root.innerHTML = res.data;
+        }
+        return res.data; 
+        }).finally(() => { 
+                  setLoading(false);
+              }),
+        {
+        loading: 'Generating blog content...',
+        success: <b>Blog generation successful!</b>,
+        error: <b>Failed to generate blog content.</b>,
+        }
+      );
   }
 
   useEffect(() => {
-    // initiate quill only once
     if(!quillRef.current && editorRef.current){
       quillRef.current=new Quill(editorRef.current,{theme:'snow'})
     }
@@ -136,10 +155,11 @@ const uploadImageToImageKit = async () => {
     <div className="max-w-lg h-74 pb-16 sm:pb-10 pt-2 relative">
       
 <div ref={editorRef}></div>        
-      <button
+      <button 
+      disabled={loading}
       onClick={genrateContent}
         type="button"
-        className="absolute bottom-1 right-2 ml-2 text-xs text-white bg-black/70 px-4 py-1.5 rounded hover:underline cursor-pointer"
+        className="absolute bottom-1 right-2 ml-2 text-xs text-white bg-black/70 px-4 py-1.5 rounded hover:underline cursor-pointer disabled:cursor-not-allowed"
       >
         Generate with AI
       </button>

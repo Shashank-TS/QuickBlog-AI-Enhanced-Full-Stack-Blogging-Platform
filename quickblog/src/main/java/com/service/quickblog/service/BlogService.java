@@ -25,6 +25,9 @@ public class BlogService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private EmailService emailService;
+
      @Autowired
     private ModelMapper modelMapper;
 
@@ -44,6 +47,9 @@ public class BlogService {
         User user =userRepository.findById(blog.getUserId()).orElseThrow();
         blog.setUserName(user.getFullname());
         Blog savedBlog = blogRepository.save(blog);
+        if (savedBlog.isPublished()) { 
+            emailService.sendNewBlogNotification(savedBlog);
+        }
         return mapBlogtoDTO(savedBlog);
         
     }
@@ -67,7 +73,10 @@ public class BlogService {
     public String setPublish(String id,boolean publishStatus) {
         Blog blog =blogRepository.findById(id).orElseThrow(()->new RuntimeException("comment not found with id: "+id));
         blog.setPublished(publishStatus);
-        blogRepository.save(blog);
+        Blog savedBlog = blogRepository.save(blog);
+        if (savedBlog.isPublished()) { 
+            emailService.sendNewBlogNotification(savedBlog);
+        }
         if(blog.isPublished()==true){
             return "Blog published Successfully!";
         }
@@ -80,5 +89,17 @@ public class BlogService {
         List<Comment> comments = commentsRepository.findByBlogId(id);
         commentsRepository.deleteAll(comments);
         return "Blogs and comments deleted Successfully!";
+    }
+
+    public BlogDTO updateBlog(String id, BlogDTO blog) {
+        Blog oldBlog=blogRepository.findById(id).orElseThrow(()->new RuntimeException("Blog not present with id "+id));
+        oldBlog.setTitle(blog.getTitle());
+        oldBlog.setSubTitle(blog.getSubTitle());
+        oldBlog.setCategory(blog.getCategory());
+        oldBlog.setDescription(blog.getDescription());
+        oldBlog.setPublished(blog.getisPublished());
+        oldBlog.setImage(blog.getImage());
+        Blog savedBlog = blogRepository.save(oldBlog);
+        return mapBlogtoDTO(savedBlog);
     }
 }

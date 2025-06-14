@@ -8,10 +8,9 @@ const Comments = () => {
   const [comments, setComments] = useState([]);
   const [filter, setFilter] = useState("Approved");
   const [loadingBlogs, setLoadingBlogs] = useState(true);
-    const [error, setError] = useState('');
-   
+    const [error, setError] = useState('');  
 
-  const userId = sessionStorage.getItem("userId")
+  const userId = localStorage.getItem("userId")
 
   const fetchComments = async () => {
     setLoadingBlogs(true)
