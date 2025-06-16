@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { comments_data } from "../../assets/assets";
 import CommentTableItem from "./CommentTableItem";
 import axios from "axios";
 import Loader from "../../components/Spinner";

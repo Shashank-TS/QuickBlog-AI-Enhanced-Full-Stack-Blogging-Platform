@@ -12,6 +12,7 @@ export const BlogProvider = ({ children }) => {
   const [blogs, setBlogs] = useState([]);
   const [loadingBlogs, setLoadingBlogs] = useState(true);
   const [error, setError] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const fetchBlogs = async () => {
     setLoadingBlogs(true);
@@ -42,7 +43,9 @@ export const BlogProvider = ({ children }) => {
     blogs,
     loadingBlogs,
     error,
-    refetchBlogs: fetchBlogs 
+    refetchBlogs: fetchBlogs,
+    searchQuery,       
+    setSearchQuery  
   };
 
   return (

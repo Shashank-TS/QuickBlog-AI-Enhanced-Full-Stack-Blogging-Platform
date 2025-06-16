@@ -33,6 +33,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setIsAuthenticated(false);
     localStorage.setItem("isAuthenticated", "false");
+    localStorage.setItem("userId",null)
     sessionStorage.clear(); 
 
     localStorage.removeItem("sessionExpiration"); 

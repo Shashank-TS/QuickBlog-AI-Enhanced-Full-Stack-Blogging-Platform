@@ -15,6 +15,7 @@ import com.service.quickblog.dto.CommentDTO;
 import com.service.quickblog.dto.CommentResponseDTO;
 import com.service.quickblog.model.Comment;
 import com.service.quickblog.service.CommentsService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/comment")
@@ -29,7 +30,7 @@ public class CommentsController {
     }
 
     @PostMapping("/post")
-    public ResponseEntity<CommentDTO> create(@RequestBody CommentDTO commentDTO){
+    public ResponseEntity<CommentDTO> create(@Valid @RequestBody CommentDTO commentDTO){
         return ResponseEntity.ok(commentsService.create(commentDTO));
     }
 

@@ -8,6 +8,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -19,10 +23,12 @@ public class User implements UserDetails {
 
     @Id
     private String id;
+    @NotBlank
     private String fullname;
+    @Email
     private String username;
+    @NotBlank
     private String password;
-    private List<String> blogIds;
     private String roles; 
 
     @Override

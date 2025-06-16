@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { blog_data } from '../../assets/assets';
 import BlogTableItem from './BlogTableItem';
 import axios from 'axios';
 import Loader from '../../components/Spinner';

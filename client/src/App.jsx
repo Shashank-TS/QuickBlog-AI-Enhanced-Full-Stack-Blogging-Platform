@@ -12,7 +12,6 @@ import 'quill/dist/quill.snow.css'
 import ProtectedRoute from './context/ProtectedRoute'
 import { Toaster } from 'react-hot-toast'
 import Profile from './pages/admin/Profile'
-import Test from './pages/text'
 
 const App = () => {
 
@@ -53,7 +52,7 @@ const App = () => {
         <Route path='/' element={<Home/>}/>
         <Route path='/blog/:id' element={<Blog/>}/>
         <Route path='/login' element={<Login/>}/>
-        <Route path='/test' element={<Test/>}/>
+  
 
         <Route path='/admin' element={<ProtectedRoute><Layout/></ProtectedRoute>}>
           <Route index element={<ProtectedRoute><Dashboard/></ProtectedRoute>}/>

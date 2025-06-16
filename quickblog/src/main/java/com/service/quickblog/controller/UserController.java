@@ -3,6 +3,9 @@ package com.service.quickblog.controller;
 import com.service.quickblog.dto.UserDTO;
 import com.service.quickblog.repository.UserRepository;
 import com.service.quickblog.service.UserService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +32,7 @@ public class UserController {
     }
 
     @PutMapping("update/{id}")
-    public ResponseEntity<?> updateUser(@PathVariable String id, @RequestBody UserDTO user) { 
+    public ResponseEntity<?> updateUser(@PathVariable String id,@Valid @RequestBody UserDTO user) { 
         if (userRepository.existsByUsername(user.getUsername())) {
             return new ResponseEntity<>("Username is already taken!", HttpStatus.BAD_REQUEST);
         } 

@@ -16,6 +16,7 @@ import com.service.quickblog.dto.AuthRequest;
 import com.service.quickblog.dto.AuthResponse;
 import com.service.quickblog.model.User;
 import com.service.quickblog.repository.UserRepository;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -34,7 +35,7 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody User registrationRequest) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody User registrationRequest) {
         if (userRepository.existsByUsername(registrationRequest.getUsername())) {
             return new ResponseEntity<>("Username is already taken!", HttpStatus.BAD_REQUEST);
         }
@@ -50,7 +51,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
+    public ResponseEntity<?> authenticateAndGetToken(@Valid @RequestBody AuthRequest authRequest) {
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())

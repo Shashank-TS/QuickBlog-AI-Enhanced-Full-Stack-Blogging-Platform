@@ -4,6 +4,7 @@ import Header from '../components/Header'
 import BlogList from '../components/BlogList'
 import Footer from '../components/Footer'
 import EmailSection from '../components/EmailSection'
+import CreateAccountPrompt from '../components/CreateAccountPrompt'
 
 const Home = () => {
   return (
@@ -12,6 +13,7 @@ const Home = () => {
    <Header/>
    <BlogList/>
    <EmailSection/>
+   <CreateAccountPrompt/>
    <Footer/>
    </>
   )

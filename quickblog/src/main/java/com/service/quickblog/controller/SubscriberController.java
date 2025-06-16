@@ -10,6 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.service.quickblog.service.SubscriberService;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 
 @RestController
 @RequestMapping("/api")
@@ -19,7 +23,7 @@ public class SubscriberController {
     private SubscriberService subscriberService;
 
     @PostMapping("/subscribe")
-    public ResponseEntity<?> subscribe(@RequestBody EmailSubscriptionRequest request) {
+    public ResponseEntity<?> subscribe(@Valid @RequestBody EmailSubscriptionRequest request) {
         if (request.getEmail() == null || !request.getEmail().matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$")) { 
             return new ResponseEntity<>(new ApiResponse("Invalid email format."), HttpStatus.BAD_REQUEST);
         }
@@ -34,7 +38,7 @@ public class SubscriberController {
     }
 
     @PutMapping("/unsubscribe")
-    public ResponseEntity<?> unsubscribeEmail(@RequestBody EmailSubscriptionRequest request){
+    public ResponseEntity<?> unsubscribeEmail(@Valid @RequestBody EmailSubscriptionRequest request){
         try {
             subscriberService.unsubscribeEmail(request.getEmail());
             return new ResponseEntity<>(new ApiResponse("unSubscribe successful!"), HttpStatus.OK);
@@ -57,7 +61,9 @@ public class SubscriberController {
     
     @Data
     public static class EmailSubscriptionRequest {
+        @NotNull
         private String userId;
+        @NotBlank
         private String email;
     }
 

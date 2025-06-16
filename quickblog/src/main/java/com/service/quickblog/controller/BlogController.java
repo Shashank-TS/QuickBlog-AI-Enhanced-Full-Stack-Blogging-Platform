@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.service.quickblog.dto.BlogDTO;
 import com.service.quickblog.model.Blog;
 import com.service.quickblog.service.BlogService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/blog")
@@ -23,7 +24,7 @@ public class BlogController {
     private BlogService blogService;
 
     @PostMapping("/create")
-    public ResponseEntity<BlogDTO> createBlog(@RequestBody BlogDTO blogDTO){
+    public ResponseEntity<BlogDTO> createBlog(@Valid @RequestBody BlogDTO blogDTO){
         return ResponseEntity.ok(blogService.createBlog(blogDTO));
     }
 
@@ -43,7 +44,7 @@ public class BlogController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<BlogDTO> updateBlog(@PathVariable String id,@RequestBody BlogDTO blog){
+    public ResponseEntity<BlogDTO> updateBlog(@PathVariable String id,@Valid @RequestBody BlogDTO blog){
         return ResponseEntity.ok(blogService.updateBlog(id,blog));
     }
 

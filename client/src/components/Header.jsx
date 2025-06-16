@@ -1,7 +1,19 @@
 import React from "react";
 import { assets } from "../assets/assets";
+import { useBlogs } from "../context/BlogContext";
 
 const Header = () => {
+  
+  const { searchQuery, setSearchQuery } = useBlogs();
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <div className="mx-8 sm:mx-16 xl:mx-24 relative">
       <div className="text-center mt-20 mb-8">
@@ -18,12 +30,17 @@ const Header = () => {
           write without filters. Whether it's one word or a thousand, your story
           starts right here.
         </p>
-        <form className="flex justify-between max-w-lg max-sm:scale-75 mx-auto border border-gray-300 bg-white rounded overflow-hidden">
+        <form
+          className="flex justify-between max-w-lg max-sm:scale-75 mx-auto border border-gray-300 bg-white rounded overflow-hidden"
+          onSubmit={handleSubmit} 
+        >
           <input
             placeholder="Search for blogs"
             required
             className="w-full pl-4 outline-none"
             type="text"
+            value={searchQuery} 
+            onChange={handleSearchChange} 
           />
           <button
             type="submit"

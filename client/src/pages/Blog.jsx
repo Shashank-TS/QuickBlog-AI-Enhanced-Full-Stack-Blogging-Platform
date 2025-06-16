@@ -69,7 +69,7 @@ const Blog = () => {
   e.preventDefault();
   setAddingComment(true)
   setAddCommentError(null);
-  if (!userId) {
+  if (userId === null) {
    setAddCommentError("Please login to comment!");
    toast.error("Please login to comment!"); 
    return;

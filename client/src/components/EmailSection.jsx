@@ -32,7 +32,7 @@ const EmailSection = () => {
     try {
       const res = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/api/subscribe`,
-        { email }, 
+        { userId,email }, 
         { withCredentials: true } 
       );
       toast.success(res.data.message || "Subscribed successfully!");
@@ -57,7 +57,7 @@ const EmailSection = () => {
   return (
     <div className="flex flex-col items-center justify-center text-center space-y-2 my-32">
       <h1 className="md:text-4xl text-2xl font-semibold">Never Miss a Blog!</h1>
-      <p className="md:text-lg text-gray-500/70 pb-8">
+      <p className="md:text-lg text-gray-700/70 pb-8">
         Subscribe to get the latest blog, new tech, and exclusive news.
       </p>
       <form
