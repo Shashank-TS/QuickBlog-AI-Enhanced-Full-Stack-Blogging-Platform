@@ -66,7 +66,7 @@ public class AuthController {
                         .secure(true)         
                         .path("/")            
                         .maxAge(jwtService.getJwtExpiration() / 1000) 
-                        .sameSite("Lax")      
+                        .sameSite("None")      
                         .build();
 
                 User user =userRepository.findByUsername(authRequest.getUsername()).orElseThrow(()->new RuntimeException("user not found"));
@@ -93,7 +93,7 @@ public class AuthController {
                 .secure(true) 
                 .path("/")
                 .maxAge(0) 
-                .sameSite("Lax") 
+                .sameSite("None") 
                 .build();
 
         return ResponseEntity.ok()

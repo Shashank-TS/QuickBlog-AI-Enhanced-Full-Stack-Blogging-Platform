@@ -6,6 +6,7 @@ import com.service.quickblog.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import com.service.quickblog.dto.BlogDTO;
 import com.service.quickblog.model.Blog;
 import com.service.quickblog.model.Comment;
@@ -70,6 +71,7 @@ public class BlogService {
         return blogs;      
     }
 
+    @Transactional
     public String setPublish(String id,boolean publishStatus) {
         Blog blog =blogRepository.findById(id).orElseThrow(()->new RuntimeException("comment not found with id: "+id));
         blog.setPublished(publishStatus);
@@ -83,6 +85,7 @@ public class BlogService {
         return "Blog Unpublished!";
     }
 
+    @Transactional
     public String deleteBlog(String id) {
         Blog blog =blogRepository.findById(id).orElseThrow(()->new RuntimeException("blog not found with id: "+id));
         blogRepository.delete(blog);

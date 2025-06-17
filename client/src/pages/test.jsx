@@ -31,9 +31,31 @@ const Test = () => {
     }
   };
 
+  const userId="68502255c220eabeafc65136"
+
+  const deleteUser=async()=>{
+    try {
+      const res = await axios.delete(
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/api/user/delete/${userId}`,
+        
+        {
+          withCredentials: true,
+        }
+      );
+      const blogData = await res.data;
+
+      console.log("user deleted successfully ", blogData);
+    } catch (error) {
+      console.error("error deleting user : ", error);
+      toast.error("An error occurred while fetching the blog.");
+    }
+  }
+
   return (
     <div>
-      <button onClick={fetchBlogData}>set</button>
+      <button onClick={deleteUser}>delete user</button>
     </div>
   );
 };

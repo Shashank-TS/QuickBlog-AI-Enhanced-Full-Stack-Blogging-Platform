@@ -17,12 +17,14 @@ const AddBlog = () => {
   const [category,setCategory]=useState("Startup");
   const [isPublished,setIsPublished]=useState(false);
   const [loading,setLoading]=useState(false);
+  const [addingBlog,setAddingBlog]=useState(false)
 
 
   const publicKey=`${import.meta.env.VITE_IMAGEKIT_PUBLIC_KEY}`;
 
   const onSubmitHandler = async (e) => {
   e.preventDefault();
+  setAddingBlog(true)
 
   const blogContent = quillRef.current?.root.innerHTML;
 
@@ -57,6 +59,8 @@ const AddBlog = () => {
   } catch (error) {
     console.error("Failed to upload blog:", error);
     toast.error("error creating blog")
+  } finally{
+    setAddingBlog(false)
   }
 };
 
@@ -180,8 +184,9 @@ const uploadImageToImageKit = async () => {
       <input className="scale-125 cursor-pointer" value={isPublished} onChange={(e)=>setIsPublished(e.target.checked)} type="checkbox" />
     </div>
     <button
+      disabled={addingBlog}
       type="submit"
-      className="mt-8 w-40 h-10 bg-primary text-white rounded cursor-pointer text-sm"
+      className="mt-8 w-40 h-10 bg-primary text-white rounded cursor-pointer text-sm disabled:cursor-not-allowed"
     >
       Add Blog
     </button>
