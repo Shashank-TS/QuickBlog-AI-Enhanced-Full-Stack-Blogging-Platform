@@ -12,8 +12,8 @@
 ## Table of contents
 
 1. [Descripiton](#description)
-2. [How to run?](#how-to-run)
-3. [Screenshots](#screenshots)
+2. [Live](#live)
+3. [How to run?](#how-to-run)
 
 ## Description
 - Developed a comprehensive full-stack blogging platform featuring both a public blog and a secure administrator panel, significantly enhancing content creation and user interaction. Leveraged Google Gemini API for advanced AI capabilities.
@@ -22,6 +22,10 @@
 -	Enabled authorized users to create, view, publish, and delete blog posts and manage associated comments.
 -	Integrated with MongoDB database for efficient and reliable data storage.
 -	Designed a responsive user interface using React and Tailwind CSS for a seamless user experience.
+
+## Live
+
+🌐 [Quickblog](https://quickblog-ai-enhanced.netlify.app)
 
 ## How to run?
 
